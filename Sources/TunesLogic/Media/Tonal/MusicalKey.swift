@@ -22,20 +22,30 @@ public struct MusicalKey: Hashable {
 			return nil
 		}
 
-		// Circle of fifths notation?
-		for notation in [CircleOfFifths.camelot, .openKey] {
-			if let key = notation.parseKey(toParse) {
+		// Try different methods
+		for parser in [
+			CircleOfFifths.camelot.parseKey,
+			CircleOfFifths.openKey.parseKey,
+			Self.parseMusical
+		] {
+			if let key = parser(toParse) {
 				return key
 			}
 		}
 		
-		let string = toParse.lowercased()
+		return nil
+	}
+	
+	public static func parseMusical(_ string: String) -> MusicalKey? {
+		// may be upper or lowercase, all are supported
+		let string = string.lowercased()
 		
-		// Musical?
+		// notes can be one or two characters long
 		for splitIndex in 1...min(2, string.count) {
 			let strSplitIndex = string.index(string.startIndex, offsetBy: splitIndex)
 			if
 				let note = MusicalNote.parse(string[..<strSplitIndex]),
+				// If we found a note, and there's no string left, assume it's major
 				let mode = (splitIndex == string.count) ? MusicalMode.major : MusicalMode.byString[String(string[strSplitIndex...])]
 			{
 				return MusicalKey(note: note, mode: mode)
