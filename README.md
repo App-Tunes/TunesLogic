@@ -1,3 +1,3 @@
 # TunesLogic
 
-A description of this package.
+A lightweight collection of backend logic for a media manager and player, written in Swift.
