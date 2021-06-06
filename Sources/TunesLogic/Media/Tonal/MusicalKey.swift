@@ -8,7 +8,7 @@
 import Foundation
 
 /// A struct describing a piece by modern western notation.
-public struct MusicalKey: Equatable {
+public struct MusicalKey: Hashable {
 	public let note: MusicalNote
 	public let mode: MusicalMode
 	

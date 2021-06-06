@@ -8,7 +8,7 @@
 import Foundation
 
 /// An enum describing pitch classes in western notation.
-public enum MusicalNote: Int, CaseIterable {
+public enum MusicalNote: Int, CaseIterable, Hashable {
 	case C = 0, Db, D, Eb, E, F, Gb, G, Ab, A, Bb, B
 
 	static public let titles = [

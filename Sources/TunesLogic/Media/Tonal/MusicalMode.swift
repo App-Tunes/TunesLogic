@@ -9,7 +9,7 @@ import Foundation
 
 /// An enum describing western musical modes.
 /// Arguably, other modes should be supported. This may be the case going forwards.
-public enum MusicalMode: CaseIterable {
+public enum MusicalMode: CaseIterable, Hashable {
 	case major, minor
 	
 	static public let byString: [String: MusicalMode] = [
