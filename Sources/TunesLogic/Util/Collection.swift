@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension Collection {
+extension Collection {
 	var one: Element? {
 		count == 1 ? first! : nil
 	}
