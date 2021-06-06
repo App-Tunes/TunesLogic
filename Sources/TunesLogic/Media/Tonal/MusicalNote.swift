@@ -8,21 +8,21 @@
 import Foundation
 
 /// An enum describing pitch classes in western notation.
-enum MusicalNote: Int, CaseIterable {
+public enum MusicalNote: Int, CaseIterable {
 	case C = 0, Db, D, Eb, E, F, Gb, G, Ab, A, Bb, B
 
-	static let titles = [
+	static public let titles = [
 		"C", "D♭", "D", "E♭", "E",
 		"F", "G♭", "G", "A♭", "A", "B♭", "B"
 	]
 		
-	static let byPitchClass = allCases
+	static public let byPitchClass = allCases
 	
-	init?(pitchClass: Int) {
+	public init?(pitchClass: Int) {
 		self.init(rawValue: pitchClass)
 	}
 	
-	static func parse<S: StringProtocol>(_ string: S) -> MusicalNote? {
+	static public func parse<S: StringProtocol>(_ string: S) -> MusicalNote? {
 		switch string.lowercased() {
 		case "a":
 			return .A
@@ -55,7 +55,7 @@ enum MusicalNote: Int, CaseIterable {
 		return nil
 	}
 
-	var pitchClass: Int { rawValue }
+	public var pitchClass: Int { rawValue }
 	
-	var title: String { Self.titles[rawValue] }
+	public var title: String { Self.titles[rawValue] }
 }

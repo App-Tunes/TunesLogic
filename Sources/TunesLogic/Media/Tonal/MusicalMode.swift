@@ -9,10 +9,10 @@ import Foundation
 
 /// An enum describing western musical modes.
 /// Arguably, other modes should be supported. This may be the case going forwards.
-enum MusicalMode: CaseIterable {
+public enum MusicalMode: CaseIterable {
 	case major, minor
 	
-	static let byString: [String: MusicalMode] = [
+	static public let byString: [String: MusicalMode] = [
 		"major": .major,
 		"minor": .minor,
 		"maj": .major,
@@ -21,14 +21,14 @@ enum MusicalMode: CaseIterable {
 		"m": .minor
 	]
 	
-	var title: String {
+	public var title: String {
 		[
 			.major: "major",
 			.minor: "minor"
 		][self]!
 	}
 
-	var shortTitle: String {
+	public var shortTitle: String {
 		[
 			.major: "d",
 			.minor: "m"
@@ -36,7 +36,7 @@ enum MusicalMode: CaseIterable {
 	}
 
 	/// number of half notes to move for the relative major key
-	var shiftToMajor: Int {
+	public var shiftToMajor: Int {
 		switch self {
 		case .major:
 			return 0

@@ -8,11 +8,11 @@
 import Foundation
 
 /// A struct describing a piece by modern western notation.
-struct MusicalKey: Equatable {
-	let note: MusicalNote
-	let mode: MusicalMode
+public struct MusicalKey: Equatable {
+	public let note: MusicalNote
+	public let mode: MusicalMode
 	
-	static func parse(_ toParse: String) -> MusicalKey? {
+	static public func parse(_ toParse: String) -> MusicalKey? {
 		if toParse.count == 0 {
 			return nil
 		}
@@ -40,12 +40,12 @@ struct MusicalKey: Equatable {
 		return nil
 	}
 
-	var title: String { "\(note.title) \(mode.title)" }
-	var shortTitle: String { "\(note.title)\(mode.shortTitle)" }
+	public var title: String { "\(note.title) \(mode.title)" }
+	public var shortTitle: String { "\(note.title)\(mode.shortTitle)" }
 }
 
 extension MusicalKey: CaseIterable {
-	static var allCases: [MusicalKey] {
+	static public var allCases: [MusicalKey] {
 		MusicalMode.allCases.flatMap { mode in
 			MusicalNote.allCases.map { note in
 				MusicalKey(note: note, mode: mode)
@@ -55,5 +55,5 @@ extension MusicalKey: CaseIterable {
 }
 
 extension MusicalKey: CustomStringConvertible {
-	var description: String { "MusicalKey(\(title))" }
+	public var description: String { "MusicalKey(\(title))" }
 }
