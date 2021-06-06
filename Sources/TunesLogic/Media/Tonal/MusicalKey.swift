@@ -12,6 +12,11 @@ public struct MusicalKey: Hashable {
 	public let note: MusicalNote
 	public let mode: MusicalMode
 	
+	public init(note: MusicalNote, mode: MusicalMode) {
+		self.note = note
+		self.mode = mode
+	}
+	
 	static public func parse(_ toParse: String) -> MusicalKey? {
 		if toParse.count == 0 {
 			return nil
