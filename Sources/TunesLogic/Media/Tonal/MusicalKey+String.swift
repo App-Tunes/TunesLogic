@@ -90,18 +90,18 @@ public extension MusicalKey {
 			
 			return noteTitle + space + modeTitle
 		}
-		
-		struct GermanWriter: MusicalKeyWriter {
-			public var sharps: MusicalNote.StringRepresentation
+	}
+	
+	struct GermanWriter: MusicalKeyWriter {
+		public var sharps: MusicalNote.StringRepresentation
 
-			public init(sharps: MusicalNote.StringRepresentation) {
-				self.sharps = sharps
-			}
-			
-			public func write(_ key: MusicalKey) -> String {
-				let noteTitle = key.note.stringRepresentation(using: sharps)
-				return key.mode == .major ? noteTitle : noteTitle.lowercased()
-			}
+		public init(sharps: MusicalNote.StringRepresentation) {
+			self.sharps = sharps
+		}
+		
+		public func write(_ key: MusicalKey) -> String {
+			let noteTitle = key.note.stringRepresentation(using: sharps)
+			return key.mode == .major ? noteTitle : noteTitle.lowercased()
 		}
 	}
 }
