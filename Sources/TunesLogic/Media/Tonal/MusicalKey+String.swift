@@ -43,7 +43,7 @@ public extension MusicalNote {
 		}
 		else {
 			// Need sharp / flat
-			let baseTitle = baseTitles[(pitchClass + (representation.isFlat ? -1 : 1) + 12) % 12]!
+			let baseTitle = baseTitles[(pitchClass + (representation.isFlat ? 1 : -1) + 12) % 12]!
 			return baseTitle + representation.symbol
 		}
 	}
