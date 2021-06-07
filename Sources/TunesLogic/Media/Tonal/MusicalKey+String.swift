@@ -69,11 +69,17 @@ public protocol MusicalKeyWriter {
 
 public extension MusicalKey {
 	struct Writer: MusicalKeyWriter {
-		public static let `default` = Writer()
+		public static let `default` = Writer(sharps: .flat(stylized: false), mode: .long)
 		
-		public var sharps: MusicalNote.StringRepresentation = .flat(stylized: false)
-		public var mode: MusicalMode.StringRepresentation = .long
-		public var withSpace: Bool = true
+		public var sharps: MusicalNote.StringRepresentation
+		public var mode: MusicalMode.StringRepresentation
+		public var withSpace: Bool
+
+		public init(sharps: MusicalNote.StringRepresentation, mode: MusicalMode.StringRepresentation, withSpace: Bool = true) {
+			self.sharps = sharps
+			self.mode = mode
+			self.withSpace = withSpace
+		}
 
 		public func write(_ key: MusicalKey) -> String {
 			let noteTitle = key.note.stringRepresentation(using: sharps)
@@ -84,8 +90,12 @@ public extension MusicalKey {
 		}
 		
 		struct GermanWriter: MusicalKeyWriter {
-			public var sharps: MusicalNote.StringRepresentation = .flat(stylized: false)
+			public var sharps: MusicalNote.StringRepresentation
 
+			public init(sharps: MusicalNote.StringRepresentation) {
+				self.sharps = sharps
+			}
+			
 			public func write(_ key: MusicalKey) -> String {
 				let noteTitle = key.note.stringRepresentation(using: sharps)
 				return key.mode == .major ? noteTitle : noteTitle.lowercased()
