@@ -46,7 +46,7 @@ public struct MusicalKey: Hashable {
 			if
 				let note = MusicalNote.parse(string[..<strSplitIndex]),
 				// If we found a note, and there's no string left, assume it's major
-				let mode = (splitIndex == string.count) ? MusicalMode.major : MusicalMode.byString[String(string[strSplitIndex...])]
+				let mode = MusicalMode.parse(string[strSplitIndex...])
 			{
 				return MusicalKey(note: note, mode: mode)
 			}

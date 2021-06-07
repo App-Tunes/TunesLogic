@@ -14,12 +14,24 @@ public enum MusicalMode: CaseIterable, Hashable {
 	
 	static public let byString: [String: MusicalMode] = [
 		"major": .major,
-		"minor": .minor,
 		"maj": .major,
-		"min": .minor,
 		"d": .major,
-		"m": .minor
+		"dur": .major,
+
+		"minor": .minor,
+		"min": .minor,
+		"m": .minor,
+		"moll": .minor,
 	]
+	
+	/// Parses a string to a musical mode. For exact matches, use byString instead. This method returns major on empty strings
+	/// and supports whitespace.
+	static public func parse<S: StringProtocol>(_ string: S) -> MusicalMode? {
+		let string = string.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+		return string.isEmpty
+			? MusicalMode.major
+			: Self.byString[string]
+	}
 	
 	public var title: String {
 		[
