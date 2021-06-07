@@ -25,7 +25,7 @@ public extension MusicalNote {
 				StringRepresentation.sharp(stylized: false): "#",
 				StringRepresentation.sharp(stylized: true): "♯",
 				StringRepresentation.flat(stylized: false): "b",
-				StringRepresentation.sharp(stylized: true): "♭",
+				StringRepresentation.flat(stylized: true): "♭",
 			][self]!
 		}
 	}
