@@ -47,15 +47,17 @@ public struct CircleOfFifths {
 	public func index(of key: MusicalKey) -> Int {
 		((key.note.pitchClass - baseNoteMajor.pitchClass + key.mode.shiftToMajor + 12) * 7) % 12
 	}
-		
-	public func stringRepresentation(of key: MusicalKey) -> String {
+}
+
+extension CircleOfFifths: CustomStringConvertible {
+	public var description: String { "CircleOfFifths.\(name)" }
+}
+
+extension CircleOfFifths: MusicalKeyWriter {
+	public func write(_ key: MusicalKey) -> String {
 		let modeShorthand = modeShorthands.first { $1 == key.mode }!.key
 		let index = index(of: key) + offset
 		
 		return "\(index)\(modeShorthand)"
 	}
-}
-
-extension CircleOfFifths: CustomStringConvertible {
-	public var description: String { "CircleOfFifths.\(name)" }
 }

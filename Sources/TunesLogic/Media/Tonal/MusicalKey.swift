@@ -54,9 +54,6 @@ public struct MusicalKey: Hashable {
 		
 		return nil
 	}
-
-	public var title: String { "\(note.title) \(mode.title)" }
-	public var shortTitle: String { "\(note.title)\(mode.shortTitle)" }
 }
 
 extension MusicalKey: CaseIterable {
@@ -70,5 +67,5 @@ extension MusicalKey: CaseIterable {
 }
 
 extension MusicalKey: CustomStringConvertible {
-	public var description: String { "MusicalKey(\(title))" }
+	public var description: String { "MusicalKey(\(Writer.default.write(self))" }
 }

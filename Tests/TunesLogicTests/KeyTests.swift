@@ -41,7 +41,7 @@
 		func testLossless() {
 			for notation in [CircleOfFifths.camelot, CircleOfFifths.openKey] {
 				for key in MusicalKey.allCases {
-					let asString = notation.stringRepresentation(of: key)
+					let asString = notation.write(key)
 					let parsed = notation.parseKey(asString)
 					
 					XCTAssertEqual(

@@ -33,20 +33,6 @@ public enum MusicalMode: CaseIterable, Hashable {
 			: Self.byString[string]
 	}
 	
-	public var title: String {
-		[
-			.major: "major",
-			.minor: "minor"
-		][self]!
-	}
-
-	public var shortTitle: String {
-		[
-			.major: "d",
-			.minor: "m"
-		][self]!
-	}
-
 	/// number of half notes to move for the relative major key
 	public var shiftToMajor: Int {
 		switch self {
@@ -56,4 +42,8 @@ public enum MusicalMode: CaseIterable, Hashable {
 			return 3
 		}
 	}
+}
+
+extension MusicalMode: CustomStringConvertible {
+	public var description: String { "MusicalMode(\(stringRepresentation(using: .long))" }
 }

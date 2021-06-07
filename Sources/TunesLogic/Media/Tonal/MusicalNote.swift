@@ -10,11 +10,6 @@ import Foundation
 /// An enum describing pitch classes in western notation.
 public enum MusicalNote: Int, CaseIterable, Hashable {
 	case C = 0, Db, D, Eb, E, F, Gb, G, Ab, A, Bb, B
-
-	static public let titles = [
-		"C", "D♭", "D", "E♭", "E",
-		"F", "G♭", "G", "A♭", "A", "B♭", "B"
-	]
 		
 	static public let byPitchClass = allCases
 	
@@ -56,6 +51,8 @@ public enum MusicalNote: Int, CaseIterable, Hashable {
 	}
 
 	public var pitchClass: Int { rawValue }
-	
-	public var title: String { Self.titles[rawValue] }
+}
+
+extension MusicalNote: CustomStringConvertible {
+	public var description: String { "MusicalNote(\(stringRepresentation(using: .flat(stylized: false)))" }
 }
