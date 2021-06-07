@@ -43,7 +43,7 @@ public extension MusicalNote {
 
 public extension MusicalMode {
 	enum StringRepresentation {
-		case long, medium, german, shortGerman
+		case long, medium, german, shortOnlyMinor, shortVerbose
 	}
 	
 	func stringRepresentation(using representation: StringRepresentation) -> String {
@@ -56,7 +56,9 @@ public extension MusicalMode {
 			return isMajor ? "maj" : "min"
 		case .german:
 			return isMajor ? "dur" : "moll"
-		case .shortGerman:
+		case .shortOnlyMinor:
+			return isMajor ? "" : "m"
+		case .shortVerbose:
 			return isMajor ? "d" : "m"
 		}
 	}
