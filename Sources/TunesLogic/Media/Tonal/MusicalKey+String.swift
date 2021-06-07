@@ -36,8 +36,16 @@ public extension MusicalNote {
 			"F", nil, "G", nil, "A", nil, "B"
 		]
 
-		let baseTitle = baseTitles[(pitchClass + (representation.isFlat ? -1 : 1) + 12) % 12]
-		return baseTitle + representation.symbol
+		let keyTitle = baseTitles[pitchClass]
+		
+		if let keyTitle = keyTitle {
+			return keyTitle
+		}
+		else {
+			// Need sharp / flat
+			let baseTitle = baseTitles[(pitchClass + (representation.isFlat ? -1 : 1) + 12) % 12]!
+			return baseTitle + representation.symbol
+		}
 	}
 }
 
