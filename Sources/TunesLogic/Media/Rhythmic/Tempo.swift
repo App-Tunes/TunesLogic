@@ -22,7 +22,7 @@ public struct Tempo: Hashable {
 		
 	public var beatsPerSecond: Double { beatsPerMinute / 60 }
 	
-	public var phraseSeconds: TimeInterval {
+	public var secondsPerPhrase: TimeInterval {
 		TimeInterval(1 / beatsPerSecond) * 16
 	}
 }
