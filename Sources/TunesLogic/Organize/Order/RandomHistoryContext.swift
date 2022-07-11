@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class RandomHistorySuggester<Item>: HistorySuggester {
+open class RandomHistorySuggester<Item>: HistorySuggester {
 	public var repeats: Bool
 
 	public var fullPool: [Item]

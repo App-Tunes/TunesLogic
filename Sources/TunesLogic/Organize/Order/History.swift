@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 @available(macOS 10.15, *)
-public class History<Item> {
+open class History<Item> {
 	public var queue: [Item]
 	public var current: Item?
 	public var history: [Item]
