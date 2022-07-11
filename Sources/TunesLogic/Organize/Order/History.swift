@@ -11,22 +11,29 @@ import Combine
 @available(macOS 10.15, *)
 public class History<Item> {
 	public var queue: [Item]
-	public var history: [Item] = []
+	public var current: Item?
+	public var history: [Item]
 	
 	public let changePublisher = PassthroughSubject<History, Never>()
 	
-	public init(history: [Item] = [], queue: [Item] = []) {
+	public init(history: [Item] = [], current: Item? = nil, queue: [Item] = []) {
 		self.queue = queue
+		self.current = current
 		self.history = history
 	}
 	
 	@discardableResult
 	public func forwards() -> Item? {
+		if let current = current {
+			history.append(current)
+		}
+		
 		guard let next = queue.popFirst() else {
+			changePublisher.send(self)
 			return nil
 		}
 		
-		history.append(next)
+		current = next
 		changePublisher.send(self)
 		
 		return next
@@ -34,11 +41,16 @@ public class History<Item> {
 	
 	@discardableResult
 	public func backwards() -> Item? {
-		guard let current = history.popLast() else {
+		if let current = current {
+			queue.prepend(current)
+		}
+
+		guard let previous = history.popLast() else {
+			changePublisher.send(self)
 			return nil
 		}
 
-		queue.prepend(current)
+		current = previous
 		changePublisher.send(self)
 
 		return previous
@@ -48,13 +60,9 @@ public class History<Item> {
 @available(macOS 10.15, *)
 public extension History {
 	var previous: Item? {
-		history.dropLast().last
-	}
-	
-	var current: Item? {
 		history.last
 	}
-	
+		
 	var next: Item? {
 		queue.first
 	}
