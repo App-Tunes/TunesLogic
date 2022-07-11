@@ -28,15 +28,10 @@ open class History<Item> {
 			history.append(current)
 		}
 		
-		guard let next = queue.popFirst() else {
-			changePublisher.send(self)
-			return nil
-		}
-		
-		current = next
+		current = queue.popFirst()
 		changePublisher.send(self)
 		
-		return next
+		return current
 	}
 	
 	@discardableResult
@@ -45,15 +40,10 @@ open class History<Item> {
 			queue.prepend(current)
 		}
 
-		guard let previous = history.popLast() else {
-			changePublisher.send(self)
-			return nil
-		}
-
-		current = previous
+		current = history.popLast()
 		changePublisher.send(self)
 
-		return previous
+		return current
 	}
 }
 
