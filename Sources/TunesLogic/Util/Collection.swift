@@ -12,3 +12,13 @@ extension Collection {
 		count == 1 ? first! : nil
 	}
 }
+
+extension Array {
+	mutating func prepend(_ element: Element) {
+		insert(element, at: 0)
+	}
+
+	mutating func popFirst() -> Element? {
+		isEmpty ? nil : removeFirst()
+	}
+}
