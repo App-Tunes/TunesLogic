@@ -40,7 +40,7 @@ public class AVSeekableAudioPlayerNode {
 		return startTime + TimeInterval(playerTime.sampleTime) / TimeInterval(format.sampleRate)
 	}
 	
-	var duration: TimeInterval {
+	public var duration: TimeInterval {
 		TimeInterval(file.length) / format.sampleRate
 	}
 	
