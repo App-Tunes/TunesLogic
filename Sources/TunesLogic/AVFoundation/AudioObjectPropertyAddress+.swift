@@ -7,7 +7,7 @@
 
 import AVFoundation
 
-extension AudioObjectPropertyAddress {
+public extension AudioObjectPropertyAddress {
 	init(selector: AudioObjectPropertySelector, scope: AudioObjectPropertyScope, element: AudioObjectPropertyElement = 0) {
 		self.init(mSelector: selector, mScope: scope, mElement: element)
 	}

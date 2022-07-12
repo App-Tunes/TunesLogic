@@ -10,26 +10,26 @@ import AVFoundation
 
 @available(macOS 10.13, *)
 public class AVSeekableAudioPlayerNode {
-	let file: AVAudioFile
-	let format: AVAudioFormat
+	public let file: AVAudioFile
+	public let format: AVAudioFormat
 	
-	private(set) var players: [AVAudioPlayerNode]
+	public private(set) var players: [AVAudioPlayerNode]
 	
 	private var startTime: TimeInterval = 0
 	private var isSwapping = false
 	
-	var didFinishPlaying: (() -> Void)? = nil
+	public var didFinishPlaying: (() -> Void)? = nil
 	
-	init(file: AVAudioFile) {
+	public init(file: AVAudioFile) {
 		self.file = file
 		self.format = file.processingFormat
 		players = [.init(), .init()]
 	}
 	
-	var primary: AVAudioPlayerNode { players.first! }
-	var secondary: AVAudioPlayerNode { players.last! }
+	public var primary: AVAudioPlayerNode { players.first! }
+	public var secondary: AVAudioPlayerNode { players.last! }
 	
-	var currentTime: TimeInterval {
+	public var currentTime: TimeInterval {
 		guard
 			let nodeTime = primary.lastRenderTime,
 			let playerTime = primary.playerTime(forNodeTime: nodeTime)
@@ -40,9 +40,9 @@ public class AVSeekableAudioPlayerNode {
 		return startTime + TimeInterval(playerTime.sampleTime) / TimeInterval(format.sampleRate)
 	}
 	
-	var isPlaying: Bool { primary.isPlaying }
+	public var isPlaying: Bool { primary.isPlaying }
 	
-	var volume: Float {
+	public var volume: Float {
 		get { primary.volume }
 		set {
 			primary.volume = newValue
@@ -50,15 +50,15 @@ public class AVSeekableAudioPlayerNode {
 		}
 	}
 	
-	func prepare() {
+	public func prepare() {
 		seekPlayer(primary, to: startTime)
 	}
 		
-	func play() {
+	public func play() {
 		primary.play()
 	}
 	
-	func stop() {
+	public func stop() {
 		startTime = currentTime
 		
 		isSwapping = true
@@ -84,14 +84,14 @@ public class AVSeekableAudioPlayerNode {
 		}
 	}
 	
-	func move(to time: TimeInterval, buffer: TimeInterval = 0.02) throws {
+	public func move(to time: TimeInterval, buffer: TimeInterval = 0.02) throws {
 		// We COULD just move normally, but the other method ensures
 		// there is no gap in playing. But less buffer, because whoever
 		// is calling probably wants the swap to be fast-ish
 		try move(by: time - currentTime, buffer: buffer)
 	}
 	
-	func move(by time: TimeInterval, buffer: TimeInterval = 0.05) throws {
+	public func move(by time: TimeInterval, buffer: TimeInterval = 0.05) throws {
 		guard isPlaying else {
 			startTime = currentTime + time
 			isSwapping = true
@@ -136,7 +136,7 @@ public class AVSeekableAudioPlayerNode {
 }
 
 @available(macOS 10.13, *)
-extension AVSeekableAudioPlayerNode {
+public extension AVSeekableAudioPlayerNode {
 	class NodeNotConnectedError: Error {}
 }
 

@@ -7,12 +7,12 @@
 
 import AVFoundation
 
-class CoreAudioLogic {
-	struct OSError: Error {
+public class CoreAudioLogic {
+	public struct OSError: Error {
 		var code: OSStatus
 	}
 	
-	static func device(ofUnit unit: AudioUnit) -> UInt32? {
+	public static func device(ofUnit unit: AudioUnit) -> UInt32? {
 		var deviceID: AudioDeviceID = 0
 		var propertySize: UInt32 = UInt32(MemoryLayout.size(ofValue: deviceID))
 		
@@ -30,7 +30,7 @@ class CoreAudioLogic {
 		return deviceID
 	}
 	
-	static func volume(ofDevice device: UInt32, channel: UInt32? = nil) -> Float? {
+	public static func volume(ofDevice device: UInt32, channel: UInt32? = nil) -> Float? {
 		do {
 			let channels = channel.map { $0...$0 } ?? 1...2
 			let volumes = try channels.map { try getObjectProperty(
@@ -51,7 +51,7 @@ class CoreAudioLogic {
 		return nil
 	}
 		
-	static func setVolume(ofDevice device: UInt32, _ volume: Float) {
+	public static func setVolume(ofDevice device: UInt32, _ volume: Float) {
 		do {
 			let channels: ClosedRange<UInt32> = 1...2
 			let volumes = channels.map { Self.volume(ofDevice: device, channel: $0) ?? 0 }
@@ -75,7 +75,7 @@ class CoreAudioLogic {
 		}
 	}
 		
-	static var defaultOutputDevice: UInt32? {
+	public static var defaultOutputDevice: UInt32? {
 		do {
 			return try getObjectProperty(
 				object: AudioObjectID(kAudioObjectSystemObject),
@@ -93,7 +93,7 @@ class CoreAudioLogic {
 		return nil
 	}
 	
-	static func withObjectProperty<T, R>(object: AudioObjectID, address: AudioObjectPropertyAddress, type: T.Type, count: Int = 1, map: (UnsafeMutablePointer<T>) -> R) throws -> R {
+	public static func withObjectProperty<T, R>(object: AudioObjectID, address: AudioObjectPropertyAddress, type: T.Type, count: Int = 1, map: (UnsafeMutablePointer<T>) -> R) throws -> R {
 		var propertySize = UInt32(MemoryLayout<T>.size) * UInt32(count)
 		
 		var address = address
@@ -107,13 +107,13 @@ class CoreAudioLogic {
 		return map(obj.assumingMemoryBound(to: T.self))
 	}
 	
-	static func getObjectProperty<T>(object: AudioObjectID, address: AudioObjectPropertyAddress, type: T.Type) throws -> T {
+	public static func getObjectProperty<T>(object: AudioObjectID, address: AudioObjectPropertyAddress, type: T.Type) throws -> T {
 		try withObjectProperty(object: object, address: address, type: type) {
 			$0.pointee
 		}
 	}
 		
-	static func getObjectPropertyCount<T>(object: AudioObjectID, address: AudioObjectPropertyAddress, forType type: T.Type) throws -> Int {
+	public static func getObjectPropertyCount<T>(object: AudioObjectID, address: AudioObjectPropertyAddress, forType type: T.Type) throws -> Int {
 		var size: UInt32 = 0
 		var address = address
 
@@ -124,14 +124,14 @@ class CoreAudioLogic {
 		return Int(size / UInt32(MemoryLayout<T>.size))
 	}
 	
-	static func getObjectPropertyList<T>(object: AudioObjectID, address: AudioObjectPropertyAddress, type: T.Type) throws -> [T] {
+	public static func getObjectPropertyList<T>(object: AudioObjectID, address: AudioObjectPropertyAddress, type: T.Type) throws -> [T] {
 		let count = try getObjectPropertyCount(object: object, address: address, forType: type)
 		return try withObjectProperty(object: object, address: address, type: type, count: count) {
 			Array(UnsafeBufferPointer(start: $0, count: count))
 		}
 	}
 
-	static func setObjectProperty<T>(object: AudioObjectID, address: AudioObjectPropertyAddress, value: T) throws {
+	public static func setObjectProperty<T>(object: AudioObjectID, address: AudioObjectPropertyAddress, value: T) throws {
 		var property = value
 		var address = address
 		let propertySize = UInt32(MemoryLayout<T>.size)
