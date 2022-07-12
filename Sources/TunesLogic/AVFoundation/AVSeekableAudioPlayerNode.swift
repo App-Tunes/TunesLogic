@@ -63,14 +63,16 @@ public class AVSeekableAudioPlayerNode {
 	}
 	
 	public func stop() {
+		guard primary.auAudioUnit.isRunning else {
+			// We are already stopped - FOREVER!!!
+			return
+		}
+
 		startTime = currentTime
 		
-		// If not running, we are already stopped.
-		if primary.auAudioUnit.isRunning {
-			isManuallyStopping = true
-			primary.stop()
-			isManuallyStopping = false
-		}
+		isManuallyStopping = true
+		primary.stop()
+		isManuallyStopping = false
 		
 		// Prepare for next playback
 		seekPlayer(primary, to: startTime)
