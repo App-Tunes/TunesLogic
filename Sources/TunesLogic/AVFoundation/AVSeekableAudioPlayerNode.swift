@@ -26,8 +26,8 @@ public class AVSeekableAudioPlayerNode {
 		players = [.init(), .init()]
 	}
 	
-	public private(set) var primary: AVAudioPlayerNode { players.first! }
-	public private(set) var secondary: AVAudioPlayerNode { players.last! }
+	public var primary: AVAudioPlayerNode { players.first! }
+	public var secondary: AVAudioPlayerNode { players.last! }
 	
 	public var currentTime: TimeInterval {
 		guard
