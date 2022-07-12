@@ -11,6 +11,14 @@ extension Collection {
 	var one: Element? {
 		count == 1 ? first! : nil
 	}
+	
+	func noneSatisfy(_ predicate: (Self.Element) throws -> Bool) rethrows -> Bool {
+		try allSatisfy { try !predicate($0) }
+	}
+	
+	func anySatisfy(_ predicate: (Self.Element) throws -> Bool) rethrows -> Bool {
+		try contains(where: predicate)
+	}
 }
 
 extension Array {
