@@ -9,7 +9,7 @@ import AVFoundation
 
 public class CoreAudioLogic {
 	public struct OSError: Error {
-		var code: OSStatus
+		public var code: OSStatus
 	}
 	
 	public static func device(ofUnit unit: AudioUnit) -> UInt32? {
