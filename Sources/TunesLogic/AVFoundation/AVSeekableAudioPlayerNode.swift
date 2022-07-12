@@ -16,7 +16,7 @@ public class AVSeekableAudioPlayerNode {
 	public private(set) var players: [AVAudioPlayerNode]
 	
 	private var startTime: TimeInterval = 0
-	private var isSwapping = false
+	private var isManuallyStopping = false
 	
 	public var didFinishPlaying: (() -> Void)? = nil
 	
@@ -65,9 +65,12 @@ public class AVSeekableAudioPlayerNode {
 	public func stop() {
 		startTime = currentTime
 		
-		isSwapping = true
-		primary.stop()
-		isSwapping = false
+		// If not running, we are already stopped.
+		if primary.auAudioUnit.isRunning {
+			isManuallyStopping = true
+			primary.stop()
+			isManuallyStopping = false
+		}
 		
 		// Prepare for next playback
 		seekPlayer(primary, to: startTime)
@@ -79,10 +82,18 @@ public class AVSeekableAudioPlayerNode {
 			return
 		}
 		
-		player.scheduleSegment(file, startingFrame: startSample, frameCount: AVAudioFrameCount(file.length - startSample), at: nil, completionCallbackType: .dataPlayedBack) { [weak self] type in
-			guard type == .dataPlayedBack else { return } // No clue why it calls for other types too
+		player.scheduleSegment(
+			file,
+			startingFrame: startSample,
+			frameCount: AVAudioFrameCount(file.length - startSample),
+			at: nil,
+			completionCallbackType: .dataPlayedBack
+		) { [weak self] type in
+			// No clue why it calls for other types too
+			guard type == .dataPlayedBack else { return }
 			guard let self = self else { return }
-			guard !self.isSwapping else { return }
+			// If is swapping, technically it DOES stop playing. But not because it finished.
+			guard !self.isManuallyStopping else { return }
 			
 			self.didFinishPlaying?()
 		}
@@ -98,9 +109,9 @@ public class AVSeekableAudioPlayerNode {
 	public func move(by time: TimeInterval, buffer: TimeInterval = 0.05) throws {
 		guard isPlaying else {
 			startTime = currentTime + time
-			isSwapping = true
+			isManuallyStopping = true
 			primary.stop()
-			isSwapping = false
+			isManuallyStopping = false
 			seekPlayer(primary, to: startTime)
 			return
 		}
@@ -130,10 +141,10 @@ public class AVSeekableAudioPlayerNode {
 		primary.volume = 0
 		
 		// Stop secondary, and reset volume
-		isSwapping = true
+		isManuallyStopping = true
 		primary.stop()
 		primary.volume = volume
-		isSwapping = false
+		isManuallyStopping = false
 
 		players.reverse()
 	}
